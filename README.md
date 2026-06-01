@@ -11,6 +11,8 @@
 
 skill 本体就是 `SKILL.md` 一个文件，不用 clone 整个仓库。
 
+### 用顺手的AI一键下载指令：
+
 **Obsidian（Claudian 插件）**
 ```bash
 curl -L https://raw.githubusercontent.com/Shilren/interview-doc-agent/main/SKILL.md \
