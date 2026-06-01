@@ -1,129 +1,87 @@
 # 📝 求职文档 Agent · Interview Doc Agent
 
-> 把零散经历沉淀成「面试就绪经历库」，一键生成**简历**和**面试逐字稿**的 AI Skill。
-> 借鉴 [Karpathy 的 LLM Wiki 思路](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)，可在 **Obsidian / 飞书 / Claude Code** 中使用。
+> 把零散经历沉淀成「经历库」，一键生成**简历**和**面试逐字稿**的 AI Skill。
+> 借鉴 [Karpathy 的 LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)，可在 Obsidian / 飞书 / 各类 coding AI 中使用。
 
-## ⚡ 安装：只需一个文件
+---
 
-这个 skill 的本体就是 **`SKILL.md` 一个文件**，不用 clone 整个仓库。把它放进你的 skills 目录即可，**首次使用时它会自动创建所需文件夹**。
+## 三步上手
 
-**Obsidian（Claudian 插件）** — 一条命令：
+### ① 装：下载一个文件
+
+skill 本体就是 `SKILL.md` 一个文件，不用 clone 整个仓库。
+
+**Obsidian（Claudian 插件）**
 ```bash
 curl -L https://raw.githubusercontent.com/Shilren/interview-doc-agent/main/SKILL.md \
   -o "<你的Vault>/.claudian/skills/生成求职文档.md"
 ```
 
-**Claude Code** — 放进 `~/.claude/skills/`：
+**Claude Code**
 ```bash
 mkdir -p ~/.claude/skills/interview-doc && \
 curl -L https://raw.githubusercontent.com/Shilren/interview-doc-agent/main/SKILL.md \
   -o ~/.claude/skills/interview-doc/SKILL.md
 ```
 
-**飞书** — 把 `SKILL.md` 全文粘进「智能伙伴」的指令框即可（详见 [docs/03-接入-飞书.md](docs/03-接入-飞书.md)）。
+**飞书**：把 `SKILL.md` 全文粘进「智能伙伴」指令框（详见 [docs/03-接入-飞书.md](docs/03-接入-飞书.md)）。
 
-装好后对 AI 说一句「**帮我初始化**」，它会自动建好目录，然后你就能用了。
+### ② 喂：放入经历
 
-> 仓库里的 `templates/`、`经历库/` 等是**示例和参考**，想要范例可以 clone 来看；但日常使用只需上面那一个文件。
+1. 对 AI 说「**帮我初始化**」→ 自动建好所有文件夹
+2. 把项目经历（任何格式，复制粘贴）放进 `materials/`
+3. 把简历模板放进 `templates/简历/`（可选，没有就用默认）
 
----
+### ③ 用：开口要
 
-## 🤖 支持哪些 AI
-
-本 skill 就是一个 Markdown 指令文件，**任何「能读写本地文件 + 能对话」的 AI 都能用**。把 SKILL.md 交给它当指令即可。
-
-**最推荐（最不像写代码，适合非程序员）**
-- 🟢 **Obsidian + [Claudian 插件](https://github.com/YishenTu/claudian)** — 像用笔记软件，侧边栏对话
-- 🟢 **飞书智能伙伴** — 在日常办公软件里用（见 [docs/03-接入-飞书.md](docs/03-接入-飞书.md)）
-
-**Coding AI（适合本来就用这些工具的人）**
-- Claude Code ｜ Cursor ｜ Windsurf ｜ Cline / Roo Code ｜ GitHub Copilot（Agent 模式）｜ Continue ｜ Aider ｜ 通义灵码 / Trae 等
-
-> 判断标准就两条：① 能读写你本地文件 ② 能多轮对话。满足就能用。
+| 你说 | 它做 |
+|---|---|
+| 「整理进经历库」 | 把 materials/ 的原始素材整理成完善档案 |
+| 「写一份简历」 | 按模板 + 经历库生成简历 → `output/` |
+| 「写小红书项目的逐字稿」 | 生成简单版+复杂版逐字稿 → `output/` |
+| 「按 jd/ 里的 JD 定制简历」 | 匹配岗位生成定制版 |
 
 ---
 
-## 💡 核心理念
+## 支持哪些 AI
 
-求职准备最大的痛点不是「不会写」，而是：
-- 经历散落在各种文档、聊天记录、脑子里，每次写简历/准备面试都要重新翻一遍
-- 每次让 AI 生成，都要把一大堆原始资料重新喂一遍，**又贵又慢、还容易丢细节**
-- 简历、逐字稿、不同岗位的定制版，各写各的，**数据对不齐**
+任何「能读写本地文件 + 能多轮对话」的 AI 都能用：
 
-这个 Agent 用 **Karpathy 的 LLM Wiki 模式**解决它：
+- **非程序员首选**：Obsidian + [Claudian](https://github.com/YishenTu/claudian)、飞书智能伙伴
+- **Coding AI**：Claude Code、Cursor、Windsurf、Cline、GitHub Copilot、Aider、通义灵码等
 
-> 不要每次都从原始资料里现查，而是**让 AI 增量地维护一个持久的知识库**——经历进来时整理一次，之后所有生成都基于这个精炼的库。
+---
 
-### 三层数据架构
+## 它怎么做到省 token 又保质量
+
+三层结构（借鉴 Karpathy LLM Wiki）：
 
 ```
-原始素材 materials/ ──整理一次──▶ 完善经历 经历库/ ──生成──▶ output/
- （粘贴的原始 dump）            （面试就绪，单一可信源）    （简历 / 逐字稿）
-                                      ▲
-                          目标岗位 JD jd/ ──匹配定制──┘
+materials/  ──整理一次──▶  经历库/  ──生成──▶  output/
+原始素材                  完善档案(单一可信源)   简历/逐字稿
+                             ▲
+                       jd/ ──定制──┘
 ```
 
-| 层 | 作用 | 类比 Karpathy |
-|---|---|---|
-| `materials/` | 原始素材，粘进来就行 | Raw sources（原始文档） |
-| `经历库/` | 整理成面试就绪的完善档案 | Wiki layer（LLM 维护的知识库） |
-| `wiki/index.md` | 轻量检索表，生成时先看它定位 | Index（索引，避免每次全量检索）|
-| `SKILL.md` | 指导 AI 行为的配置 | Schema（行为配置）|
-
-**省 token 的关键**：生成时先读索引 → 只读相关的 1-2 篇经历 → 细节不足才回查原文。项目越多，省得越多。
+生成时先读 `wiki/index.md` 索引定位，**只读相关的 1-2 篇经历**，不必每次重喂全部资料 → 省 token；所有产出同源 → 数据永远对齐。
 
 ---
 
-## ✨ 亮点
-
-- **🎯 面试方法论内置**：项目逐字稿强制走「背景思考 → 定义问题 → 手段&成果」三段式，复用「我判断发力重点在 X」「逻辑是…具体动作是…」等高质量句式
-- **📊 数据零丢失**：整理经历时量化数据（CAC/留存/提升%）全部保留，生成时绝不编造，缺数据用 `___` 占位
-- **♻️ 一次整理，处处复用**：简历、逐字稿、JD 定制版都从同一个经历库生成，数据永远对齐
-- **🔌 双平台**：同一套 SKILL.md，既能在 Obsidian（Claudian 插件）用，也能接入飞书
-- **💸 省钱省 token**：索引 + 压缩经历库，不必每次重喂全部原始资料
-- **🆓 无需 API key**：由对话型 AI（Claudian / 飞书智能伙伴 / Claude Code）直接读写文件执行
-
----
-
-## 🚀 快速开始
-
-### 在 Obsidian 中使用 → 看 [docs/02-安装-obsidian.md](docs/02-安装-obsidian.md)
-### 接入飞书使用 → 看 [docs/03-接入-飞书.md](docs/03-接入-飞书.md)
-### 完整使用指南 → 看 [docs/04-使用指南.md](docs/04-使用指南.md)
-### 设计理念详解 → 看 [docs/01-理念-karpathy-wiki.md](docs/01-理念-karpathy-wiki.md)
-
-**30 秒上手：**
-1. 把这个仓库放进你的知识库（Obsidian vault 或飞书云空间）
-2. 把你的简历模板放进 `templates/简历/`，面试话术模板放进 `templates/逐字稿/`
-3. 把你的项目经历（任何格式的原始记录）粘进 `materials/`
-4. 对 AI 说：「整理进经历库」→ 再说「写一份简历」或「写小红书项目的逐字稿」
-5. 产出出现在 `output/`
-
----
-
-## 📂 目录结构
+## 目录结构
 
 ```
-interview-doc-agent/
-├── SKILL.md            # 核心：给 AI 读的执行说明
-├── templates/          # 模板库（学写作风格）
-│   ├── 简历/           #   简历模板（.tex 排版 / .md 改写）
-│   └── 逐字稿/         #   面试话术模板 + 范文
-├── 经历库/             # ✨ 完善经历（生成主来源）
-│   └── 00-个人档案.md  #   基础信息 + 索引 + 人设关键词
-├── materials/          # 原始素材（粘贴的 dump）
-├── jd/                 # 目标岗位 JD（定制用）
-├── output/             # 生成的文档
-├── wiki/index.md       # 检索索引
-└── docs/               # 保姆级教程
+├── SKILL.md      # 核心：给 AI 的执行说明（唯一必需文件）
+├── templates/    # 模板（简历 / 逐字稿）
+├── 经历库/        # 完善经历，生成主来源
+├── materials/    # 原始素材
+├── jd/           # 目标岗位 JD
+├── output/       # 产出
+├── wiki/index.md # 检索索引
+└── docs/         # 详细教程
 ```
 
----
+## 详细文档
+[设计理念](docs/01-理念-karpathy-wiki.md) ｜ [Obsidian 安装](docs/02-安装-obsidian.md) ｜ [接入飞书](docs/03-接入-飞书.md) ｜ [使用指南](docs/04-使用指南.md)
 
-## 📜 License
-
-MIT — 详见 [LICENSE](LICENSE)。模板部分参考了 [autoCVmkr / Puneet Gautam 的 MIT 简历模板](https://github.com/kryptoniteX/autocvmkr)。
-
-## 🙏 致谢
-- [Andrej Karpathy — LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f) 的知识库维护思路
-- [Claudian](https://github.com/YishenTu/claudian) — 把 Claude Code 嵌入 Obsidian 的插件
+## License & 致谢
+MIT（[LICENSE](LICENSE)）。致谢 [Karpathy LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)、[Claudian](https://github.com/YishenTu/claudian)、[autoCVmkr 简历模板](https://github.com/kryptoniteX/autocvmkr)。
