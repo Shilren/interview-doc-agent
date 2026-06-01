@@ -1,7 +1,30 @@
 # 📝 求职文档 Agent · Interview Doc Agent
 
-> 一个把你的零散经历，沉淀成「面试就绪经历库」，再一键生成**简历**和**面试逐字稿**的 AI Skill。
-> 借鉴 [Andrej Karpathy 的 LLM Wiki 思路](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)，可在 **Obsidian** 和 **飞书** 中使用。
+> 把零散经历沉淀成「面试就绪经历库」，一键生成**简历**和**面试逐字稿**的 AI Skill。
+> 借鉴 [Karpathy 的 LLM Wiki 思路](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)，可在 **Obsidian / 飞书 / Claude Code** 中使用。
+
+## ⚡ 安装：只需一个文件
+
+这个 skill 的本体就是 **`SKILL.md` 一个文件**，不用 clone 整个仓库。把它放进你的 skills 目录即可，**首次使用时它会自动创建所需文件夹**。
+
+**Obsidian（Claudian 插件）** — 一条命令：
+```bash
+curl -L https://raw.githubusercontent.com/Shilren/interview-doc-agent/main/SKILL.md \
+  -o "<你的Vault>/.claudian/skills/生成求职文档.md"
+```
+
+**Claude Code** — 放进 `~/.claude/skills/`：
+```bash
+mkdir -p ~/.claude/skills/interview-doc && \
+curl -L https://raw.githubusercontent.com/Shilren/interview-doc-agent/main/SKILL.md \
+  -o ~/.claude/skills/interview-doc/SKILL.md
+```
+
+**飞书** — 把 `SKILL.md` 全文粘进「智能伙伴」的指令框即可（详见 [docs/03-接入-飞书.md](docs/03-接入-飞书.md)）。
+
+装好后对 AI 说一句「**帮我初始化**」，它会自动建好目录，然后你就能用了。
+
+> 仓库里的 `templates/`、`经历库/` 等是**示例和参考**，想要范例可以 clone 来看；但日常使用只需上面那一个文件。
 
 ---
 

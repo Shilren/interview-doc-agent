@@ -21,43 +21,28 @@
 
 > 💡 Claudian 是「套壳」——它调用你本机已登录的 Claude，不是独立账号，所以无需单独的 API key。
 
-## 步骤二：把 Agent 放进你的 vault
+## 步骤二：装 skill —— 只需一个文件
 
-把整个 `interview-doc-agent` 文件夹放进你的 Obsidian vault。两种方式任选：
-
-**方式 A（命令行，推荐）**
-```bash
-git clone https://github.com/<你的用户名>/interview-doc-agent.git \
-  "/path/to/你的Vault/interview-doc-agent"
-```
-
-**方式 B（手动）**
-下载本仓库 ZIP → 解压 → 把 `interview-doc-agent` 文件夹拖进 vault 文件夹。
-
-完成后，Obsidian 左侧文件树应能看到 `interview-doc-agent/` 及其子文件夹。
-
-## 步骤三：把 SKILL.md 注册给 Claudian
-
-Claudian 从 `<vault>/.claudian/skills/` 读取 skill。我们建一个**软链接**指向仓库里的 SKILL.md，这样仓库自包含、Claudian 也能识别：
+skill 本体就是 `SKILL.md` 一个文件，不用 clone 整个仓库。一条命令下载到 Claudian 的 skills 目录：
 
 ```bash
-cd "/path/to/你的Vault"
-mkdir -p .claudian/skills
-ln -s "../../interview-doc-agent/SKILL.md" ".claudian/skills/生成求职文档.md"
+curl -L https://raw.githubusercontent.com/Shilren/interview-doc-agent/main/SKILL.md \
+  -o "/path/to/你的Vault/.claudian/skills/生成求职文档.md"
 ```
 
-> 不会用命令行？也可以直接把 `SKILL.md` 复制一份到 `<vault>/.claudian/skills/生成求职文档.md`（缺点：以后改了要手动同步两边）。
+> 不会用命令行？打开上面那个网址，复制全文，在 `<vault>/.claudian/skills/` 下新建 `生成求职文档.md` 粘进去即可。
 
-重启 Obsidian，在 Claudian 侧边栏输入 `/` 应能看到 `生成求职文档` 这个 skill。
+重启 Obsidian，在 Claudian 侧边栏输入 `/` 应能看到 `生成求职文档`。
 
-## 步骤四：放入你的模板和经历
+## 步骤三：初始化 + 放入素材
 
-1. **简历模板** → 放进 `interview-doc-agent/templates/简历/`
-   - 有 LaTeX 模板放 `.tex`，或直接放 Markdown 简历
-2. **面试话术模板** → 仓库已自带 `templates/逐字稿/产品面试话术模版.示例.md`，可直接用或替换成你的
-3. **项目经历** → 把你的项目记录（任何格式，复制粘贴即可）放进 `materials/`
+1. 对 Claudian 说一句「**帮我初始化**」→ 它会在当前位置自动建好 `templates/`、`经历库/`、`materials/` 等文件夹
+2. **简历模板** → 放进 `templates/简历/`（LaTeX 放 `.tex`，或直接放 Markdown）
+3. **项目经历** → 把记录（任何格式，复制粘贴）放进 `materials/`
 
-## 步骤五：开始用
+> 想要现成的模板/示例参考？可以 clone 仓库看 `templates/` 和 `经历库/` 里的示例文件，但日常使用不需要整个仓库。
+
+## 步骤四：开始用
 
 在 Claudian 侧边栏对话：
 
