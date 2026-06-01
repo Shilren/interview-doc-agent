@@ -28,6 +28,21 @@ curl -L https://raw.githubusercontent.com/Shilren/interview-doc-agent/main/SKILL
 
 ---
 
+## 🤖 支持哪些 AI
+
+本 skill 就是一个 Markdown 指令文件，**任何「能读写本地文件 + 能对话」的 AI 都能用**。把 SKILL.md 交给它当指令即可。
+
+**最推荐（最不像写代码，适合非程序员）**
+- 🟢 **Obsidian + [Claudian 插件](https://github.com/YishenTu/claudian)** — 像用笔记软件，侧边栏对话
+- 🟢 **飞书智能伙伴** — 在日常办公软件里用（见 [docs/03-接入-飞书.md](docs/03-接入-飞书.md)）
+
+**Coding AI（适合本来就用这些工具的人）**
+- Claude Code ｜ Cursor ｜ Windsurf ｜ Cline / Roo Code ｜ GitHub Copilot（Agent 模式）｜ Continue ｜ Aider ｜ 通义灵码 / Trae 等
+
+> 判断标准就两条：① 能读写你本地文件 ② 能多轮对话。满足就能用。
+
+---
+
 ## 💡 核心理念
 
 求职准备最大的痛点不是「不会写」，而是：
