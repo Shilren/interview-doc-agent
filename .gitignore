@@ -1,0 +1,20 @@
+# 个人隐私数据不上传（用户自己的真实经历、产出）
+# 模板使用者：取消下面的注释可让自己的数据不进 git
+
+# materials/*
+# !materials/.gitkeep
+# !materials/README.md
+# output/*
+# !output/.gitkeep
+# 经历库/*
+# !经历库/00-个人档案.模板.md
+
+# 系统/编辑器
+.DS_Store
+.obsidian/
+*.aux
+*.log
+*.out
+*.synctex.gz
+__pycache__/
+.venv/
