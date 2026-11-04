@@ -1,5 +1,7 @@
 # 📝 求职文档 Agent · Interview Doc Agent
 
+[![Try 经历库 · 简历与面试逐字稿 on Socialistic](https://socialistic.ai/api/embed/interview-doc-agent-887e47?lang=zh)](https://socialistic.ai/zh/skill/interview-doc-agent-887e47?utm_source=github&utm_medium=pr&utm_campaign=github-interview-skills&utm_content=badge)
+
 > 把零散经历沉淀成「经历库」，一键生成**简历**和**面试逐字稿**的 AI Skill。
 > 
 > 借鉴 [Karpathy 的 LLM Wiki](https://gist.github.com/karpathy/442a6bf555914893e9891c11519de94f)，可在 Obsidian / 飞书 / 各类 coding AI 中使用。
